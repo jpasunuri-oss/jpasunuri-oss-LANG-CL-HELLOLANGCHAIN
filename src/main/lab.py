@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 
 from langchain_community.chat_models import ChatHuggingFace
 from langchain_community.llms.huggingface_endpoint import HuggingFaceEndpoint
@@ -23,11 +24,13 @@ LLM generations across arrays of data with 'apply' and interpolating data into a
 template:
 https://python.langchain.com/docs/modules/chains/foundational/llm_chain
 """
-
+# Load dot_env 
+load_dotenv()
 
 def lab():
     llm = HuggingFaceEndpoint(
         endpoint_url=os.environ['LLM_ENDPOINT'],
+        huggingfacehub_api_token = os.environ['HF_TOKEN'],
         task="text2text-generation",
         model_kwargs={
             "max_new_tokens": 200
@@ -35,4 +38,4 @@ def lab():
     )
     chat_model = ChatHuggingFace(llm=llm)
 
-    return "todo"
+    return chat_model.invoke("Hello llm")
